@@ -115,7 +115,7 @@ class RecipeCard extends HTMLElement {
 
     const reflink = document.createElement('a');
     reflink.href =  getUrl(data);
-    reflink.textContent = searchForKey(data,"name");
+    reflink.textContent = searchForKey(data,"headline");
     //console.log(reflink.textContent);
 
     para1.appendChild(reflink);
