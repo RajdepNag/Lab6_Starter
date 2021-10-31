@@ -8,6 +8,8 @@ const recipes = [
   'https://introweb.tech/assets/json/chocolateChip.json'
 ];
 
+let recipeDataSize = 0;
+
 // Once all of the recipes that were specified above have been fetched, their
 // data will be added to this object below. You may use whatever you like for the
 // keys as long as it's unique, one suggestion might but the URL itself
@@ -19,11 +21,13 @@ window.addEventListener('DOMContentLoaded', init);
 async function init() {
   // fetch the recipes and wait for them to load
   let fetchSuccessful = await fetchRecipes();
+  
   // if they didn't successfully load, quit the function
   if (!fetchSuccessful) {
-    console.log('Recipe fetch unsuccessful');
+      console.log('Recipe fetch unsuccesful');
     return;
-  };
+  }
+
   // Add the first three recipe cards to the page
   createRecipeCards();
   // Make the "Show more" button functional
@@ -43,8 +47,27 @@ async function fetchRecipes() {
     // in the recipes folder and fetch them from there. You'll need to add their paths to the recipes array.
 
     // Part 1 Expose - TODO
+ 
+    for(let i = 0; i < recipes.length; i++)  {
+      
+      fetch(recipes[i])
+      .then (response => response.json())
+      .then (data => {
+        recipeData[recipes[i]] = data;
+        recipeDataSize++;
+       // console.log(size);
+            if(recipeDataSize == recipes.length)
+                resolve(true);
+        })
+      .catch((error) => {
+        console.error('Error: ', error);
+        reject(false);
+      });
+    
+    }
   });
-}
+}        
+     
 
 function createRecipeCards() {
   // This function is called for you up above.
@@ -54,6 +77,18 @@ function createRecipeCards() {
   // show any others you've added when the user clicks on the "Show more" button.
 
   // Part 1 Expose - TODO
+
+  for(let i = 0; i < recipeDataSize; i++) {
+
+    let rec_card = document.createElement('recipe-card');
+    rec_card.data = recipeData[recipes[i]];
+    const main = document.querySelector('main');
+    main.appendChild(rec_card);
+
+  } 
+
+
+
 }
 
 function bindShowMore() {
