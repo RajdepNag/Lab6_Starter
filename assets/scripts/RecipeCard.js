@@ -115,8 +115,8 @@ class RecipeCard extends HTMLElement {
 
     const reflink = document.createElement('a');
     reflink.href =  getUrl(data);
-    reflink.textContent = searchForKey(data,"headline");
-    console.log(reflink.textContent);
+    reflink.textContent = searchForKey(data,"name");
+    //console.log(reflink.textContent);
 
     para1.appendChild(reflink);
 
@@ -134,6 +134,9 @@ class RecipeCard extends HTMLElement {
     }
     else {
       let review = searchForKey(data,"ratingValue");
+      review = parseFloat(review);
+      review = review.toPrecision(2);
+      //console.log(review);
       span.textContent = review;
       //let star_image = document.createElement('img');
       if(review >= 0 && review <= 0.5) {
